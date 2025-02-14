@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="contenedor">
+        <img id="imagen" src="{{ url_for('video_feed') }}" alt="Video en tiempo real">
+        <p id="prediccion_mas_reciente">{{ prediccion_mas_reciente }}</p>
+    </div>
+
+    <script>
+        function actualizarPrediccion() {
+            fetch('/prediccion_reciente')
+                .then(response => response.json())
+                .then(data =>{
+                    console.log(data);
+
+                    document.getElementById('prediccion_mas_reciente').innerText = "Prediccion: " + data.prediccion_mas_reciente;
+                })
+                .catch(error => console.error('Error al obtener la prediccion: ', error));
+        }
+
+        // Actualiza la produccion cada 1000ms
+        setInterval(actualizarPrediccion, 1000);
+    </script>
+    
+</body>
+</html>
